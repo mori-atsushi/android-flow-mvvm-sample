@@ -9,12 +9,16 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
 val module = module {
+    // ui
+    viewModel { TopViewModel(get()) }
+
     // data/repository
     single<RepoRepository> { RepoRepositoryImpl(get()) }
 
