@@ -11,7 +11,7 @@ data class Repo(
     val owner: User,
     @Json(name = "html_url")
     val htmlUrl: String,
-    val description: String,
+    val description: String?,
     val url: String,
     @Json(name = "created_at")
     val createdAt: Date,
@@ -27,12 +27,12 @@ data class Repo(
     val cloneUrl: String,
     @Json(name = "svn_url")
     val svnUrl: String,
-    val homepage: String,
+    val homepage: String?,
     @Json(name = "stargazers_count")
     val stargazersCount: Int,
     @Json(name = "watchers_count")
     val watchers_count: Int,
-    val language: String,
+    val language: String?,
     @Json(name = "has_issues")
     val hasIssues: Boolean,
     @Json(name = "has_downloads")

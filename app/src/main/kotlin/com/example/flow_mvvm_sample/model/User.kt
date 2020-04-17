@@ -31,19 +31,5 @@ data class User(
     val eventsUrl: String,
     @Json(name = "received_events_url")
     val receivedEventsUrl: String,
-    val type: String,
-    val name: String,
-    val blog: String,
-    val location: String,
-    val email: String,
-    @Json(name = "public_repos")
-    val publicRepos: Int,
-    @Json(name = "public_gists")
-    val publicGists: Int,
-    val followers: Int,
-    val following: Int,
-    @Json(name = "created_at")
-    val createdAt: Date,
-    @Json(name = "updated_at")
-    val updatedAt: Date
+    val type: String
 )
