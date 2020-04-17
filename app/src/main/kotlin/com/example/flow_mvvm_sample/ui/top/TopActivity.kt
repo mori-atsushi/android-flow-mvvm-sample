@@ -3,11 +3,9 @@ package com.example.flow_mvvm_sample.ui.top
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.example.flow_mvvm_sample.R
 import com.example.flow_mvvm_sample.databinding.ActivityTopBinding
-import com.example.flow_mvvm_sample.util.ext.launchAllIn
-import kotlinx.coroutines.flow.onEach
+import com.example.flow_mvvm_sample.util.ext.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class TopActivity : AppCompatActivity() {
@@ -30,14 +28,11 @@ class TopActivity : AppCompatActivity() {
     }
 
     private fun bindViewModel() {
-        listOf(
-            viewModel.isLoading.onEach {
-                binding.isLoading = it
-            },
-            viewModel.data.onEach {
-                adapter.list = it.orEmpty()
-                adapter.notifyDataSetChanged()
-            }
-        ).launchAllIn(lifecycleScope)
+        bind(viewModel.isLoading) {
+            binding.isLoading = it
+        }
+        bind(viewModel.data) {
+            adapter.setList(it)
+        }
     }
 }

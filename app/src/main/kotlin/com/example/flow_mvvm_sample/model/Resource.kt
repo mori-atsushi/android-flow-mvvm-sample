@@ -10,4 +10,7 @@ sealed class Resource<out T> {
     data class Fail(
         val error: Throwable
     ) : Resource<Nothing>()
+
+    val isLoading get() = this is Loading
+    val valueOrNull get() = (this as? Success)?.value
 }

@@ -8,7 +8,7 @@ import com.example.flow_mvvm_sample.model.Repo
 
 
 class RepoAdapter : RecyclerView.Adapter<RepoAdapter.ViewHolder>() {
-    var list: List<Repo> = listOf()
+    private var list: List<Repo> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,6 +25,11 @@ class RepoAdapter : RecyclerView.Adapter<RepoAdapter.ViewHolder>() {
             it.repo = list[position]
             it.executePendingBindings()
         }
+    }
+
+    fun setList(list: List<Repo>) {
+        this.list = list
+        notifyDataSetChanged()
     }
 
     class ViewHolder(

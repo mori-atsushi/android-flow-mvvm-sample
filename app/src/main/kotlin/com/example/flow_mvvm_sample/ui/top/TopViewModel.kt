@@ -17,10 +17,10 @@ class TopViewModel(
     private val resourceChannel = ConflatedBroadcastChannel<Resource<List<Repo>>>()
     private val resource get() = resourceChannel.asFlow()
     val isLoading = resource.map {
-        it is Resource.Loading
+        it.isLoading
     }
     val data = resource.map {
-        (it as? Resource.Success)?.value
+        it.valueOrNull.orEmpty()
     }
 
     init {
