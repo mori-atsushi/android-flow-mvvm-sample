@@ -1,0 +1,2 @@
+rootProject.name='flow-mvvm-sample'
+include ':app'
