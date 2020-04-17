@@ -3,7 +3,7 @@ package com.example.flow_mvvm_sample.model
 import com.squareup.moshi.Json
 import java.util.Date
 
-data class Repository(
+data class Repo(
     val id: Long,
     val name: String,
     @Json(name = "full_name")

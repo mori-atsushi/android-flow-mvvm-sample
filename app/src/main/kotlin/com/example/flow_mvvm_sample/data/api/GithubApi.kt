@@ -1,6 +1,6 @@
 package com.example.flow_mvvm_sample.data.api
 
-import com.example.flow_mvvm_sample.model.Repository
+import com.example.flow_mvvm_sample.model.Repo
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -10,13 +10,13 @@ interface GithubApi {
     }
 
     @GET("users/{user}/repos")
-    suspend fun getProjectList(
+    suspend fun getRepoList(
         @Path("user") user: String?
-    ): List<Repository>
+    ): List<Repo>
 
     @GET("/repos/{user}/{repo_name}")
-    suspend fun getProjectDetails(
+    suspend fun getRepoDetails(
         @Path("user") user: String?,
         @Path("repo_name") repoName: String?
-    ): Repository
+    ): Repo
 }
