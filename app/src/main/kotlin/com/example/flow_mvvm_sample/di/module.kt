@@ -3,6 +3,7 @@ package com.example.flow_mvvm_sample.di
 import com.example.flow_mvvm_sample.data.api.GithubApi
 import com.example.flow_mvvm_sample.data.repository.RepoRepository
 import com.example.flow_mvvm_sample.data.repository.RepoRepositoryImpl
+import com.example.flow_mvvm_sample.ui.detail.DetailViewModel
 import com.example.flow_mvvm_sample.ui.top.TopViewModel
 import com.example.flow_mvvm_sample.util.DateJsonAdapter
 import com.squareup.moshi.Moshi
@@ -17,7 +18,12 @@ import java.util.*
 
 val module = module {
     // ui
-    viewModel { TopViewModel(get()) }
+    viewModel {
+        TopViewModel(get())
+    }
+    viewModel { (userName: String, repoName: String) ->
+        DetailViewModel(userName, repoName, get())
+    }
 
     // data/repository
     single<RepoRepository> { RepoRepositoryImpl(get()) }
