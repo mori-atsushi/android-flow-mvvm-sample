@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">flow-mvvm-sample</string>
+    <string name="user_name">ユーザ名</string>
 </resources>
