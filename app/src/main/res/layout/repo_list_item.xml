@@ -8,11 +8,19 @@
         <variable
             name="repo"
             type="com.example.flow_mvvm_sample.model.Repo" />
+
+        <variable
+            name="onClick"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{onClick}">
 
         <TextView
             android:layout_width="match_parent"
