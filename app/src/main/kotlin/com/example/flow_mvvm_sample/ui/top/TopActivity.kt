@@ -25,6 +25,7 @@ class TopActivity : AppCompatActivity() {
 
     private fun setupView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_top)
+        setSupportActionBar(binding.toolbar)
         adapter = RepoAdapter(this::showDetail)
         binding.recyclerView.adapter = adapter
     }
