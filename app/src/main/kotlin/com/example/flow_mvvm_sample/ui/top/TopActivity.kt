@@ -29,6 +29,9 @@ class TopActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_top)
         adapter = RepoAdapter(this::showDetail)
         binding.recyclerView.adapter = adapter
+        binding.error.setOnClickRetryButton {
+            viewModel.retry()
+        }
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.submit()
@@ -48,6 +51,9 @@ class TopActivity : AppCompatActivity() {
         }
         bind(viewModel.isLoading) {
             binding.isLoading = it
+        }
+        bind(viewModel.isFail) {
+            binding.isError = it
         }
         bind(viewModel.data) {
             adapter.setList(it)

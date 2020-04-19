@@ -25,6 +25,9 @@ class TopViewModel(
     val isLoading = resource.map {
         it.isLoading
     }
+    val isFail = resource.map {
+        it.isFail
+    }
     val data = resource.map {
         it.valueOrNull.orEmpty()
     }
@@ -48,6 +51,12 @@ class TopViewModel(
     }
 
     fun submit() {
+        viewModelScope.launch {
+            _submitEvent.send(Unit)
+        }
+    }
+
+    fun retry() {
         viewModelScope.launch {
             _submitEvent.send(Unit)
         }
