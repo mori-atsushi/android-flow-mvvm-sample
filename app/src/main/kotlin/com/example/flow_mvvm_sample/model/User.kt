@@ -1,7 +1,6 @@
 package com.example.flow_mvvm_sample.model
 
 import com.squareup.moshi.Json
-import java.util.*
 
 data class User(
     val login: String,

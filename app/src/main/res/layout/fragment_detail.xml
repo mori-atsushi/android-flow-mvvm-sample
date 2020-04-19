@@ -20,7 +20,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/dialog_background">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -30,14 +31,35 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp">
 
                 <TextView
+                    android:id="@+id/full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{repo.name}"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@{repo.fullName}"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="name" />
+
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@{repo.description}"
+                    app:layout_constraintTop_toBottomOf="@id/full_name"
+                    app:visible="@{repo.description != null}"
+                    tools:text="description" />
 
                 <include
                     android:id="@+id/error"

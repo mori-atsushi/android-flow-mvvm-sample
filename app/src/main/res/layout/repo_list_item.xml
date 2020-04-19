@@ -20,13 +20,40 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{onClick}">
+        android:onClick="@{onClick}"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="0dp">
 
         <TextView
+            android:id="@+id/full_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{repo.name}"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@{repo.fullName}"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="name" />
+            tools:text="fullname" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@{repo.description}"
+            app:layout_constraintTop_toBottomOf="@id/full_name"
+            app:visible="@{repo.description != null}"
+            tools:text="description" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
