@@ -47,8 +47,8 @@ data class Repo(
     val openIssuesCount: Int,
     val forks: Int,
     @Json(name = "open_issues")
-    val open_issues: Int,
+    val openIssues: Int,
     val watchers: Int,
     @Json(name = "default_branch")
-    val default_branch: String
+    val defaultBranch: String
 )
