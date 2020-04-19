@@ -6,9 +6,9 @@ data class User(
     val login: String,
     val id: Long,
     @Json(name = "avatar_url")
-    val avatar_url: String,
+    val avatarUrl: String,
     @Json(name = "gravatar_id")
-    val gravatar_id: String,
+    val gravatarId: String,
     val url: String,
     @Json(name = "html_url")
     val htmlUrl: String,

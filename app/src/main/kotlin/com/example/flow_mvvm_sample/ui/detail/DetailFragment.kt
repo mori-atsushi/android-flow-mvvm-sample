@@ -1,12 +1,20 @@
 package com.example.flow_mvvm_sample.ui.detail
 
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import com.example.flow_mvvm_sample.R
 import com.example.flow_mvvm_sample.databinding.FragmentDetailBinding
 import com.example.flow_mvvm_sample.util.ext.bind
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -38,6 +46,10 @@ class DetailFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return BottomSheetDialog(requireContext(), R.style.BottomSheetTheme)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +58,9 @@ class DetailFragment : BottomSheetDialogFragment() {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.error.setOnClickRetryButton {
             viewModel.retry()
+        }
+        binding.link.setOnClickListener {
+            openLink(binding.link.text.toString())
         }
         return binding.root
     }
@@ -67,5 +82,15 @@ class DetailFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun openLink(url: String) {
+        try {
+            val uri = Uri.parse(url)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        } catch (e: Throwable) {
+            Log.e("TAG", e.toString())
+        }
     }
 }
