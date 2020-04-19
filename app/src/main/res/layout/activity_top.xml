@@ -9,7 +9,7 @@
             type="Boolean" />
 
         <variable
-            name="isError"
+            name="isFail"
             type="Boolean" />
     </data>
 
@@ -44,7 +44,7 @@
             <include
                 android:id="@+id/error"
                 layout="@layout/layout_error"
-                app:visible="@{isError}" />
+                app:visible="@{isFail}" />
 
             <ProgressBar
                 android:layout_width="wrap_content"

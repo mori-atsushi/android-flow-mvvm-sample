@@ -53,7 +53,7 @@ class TopActivity : AppCompatActivity() {
             binding.isLoading = it
         }
         bind(viewModel.isFail) {
-            binding.isError = it
+            binding.isFail = it
         }
         bind(viewModel.data) {
             adapter.setList(it)

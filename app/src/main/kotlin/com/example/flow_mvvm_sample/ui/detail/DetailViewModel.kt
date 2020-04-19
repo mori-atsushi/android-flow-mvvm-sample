@@ -5,26 +5,40 @@ import androidx.lifecycle.viewModelScope
 import com.example.flow_mvvm_sample.data.repository.RepoRepository
 import com.example.flow_mvvm_sample.model.Repo
 import com.example.flow_mvvm_sample.model.Resource
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val userName: String,
     private val repoName: String,
     private val repository: RepoRepository
 ) : ViewModel() {
+    private val _loadEvent = BroadcastChannel<Unit>(Channel.BUFFERED)
+    private val loadEvent get() = _loadEvent.asFlow()
+
     private val repoChannel = ConflatedBroadcastChannel<Resource<Repo>>()
     private val repo get() = repoChannel.asFlow()
 
     val isLoading = repo.map { it.isLoading }
+    val isFail = repo.map { it.isFail }
     val data = repo.map { it.valueOrNull }
 
     init {
-        repository.getRepoDetail(userName, repoName)
+        loadEvent.flatMapLatest { repository.getRepoDetail(userName, repoName) }
             .onEach { repoChannel.send(it) }
             .launchIn(viewModelScope)
+
+        viewModelScope.launch {
+            _loadEvent.send(Unit)
+        }
+    }
+
+    fun retry() {
+        viewModelScope.launch {
+            _loadEvent.send(Unit)
+        }
     }
 }

@@ -44,6 +44,9 @@ class DetailFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        binding.error.setOnClickRetryButton {
+            viewModel.retry()
+        }
         return binding.root
     }
 
@@ -52,6 +55,9 @@ class DetailFragment : BottomSheetDialogFragment() {
 
         bind(viewModel.isLoading) {
             binding.isLoading = it
+        }
+        bind(viewModel.isFail) {
+            binding.isFail = it
         }
         bind(viewModel.data) {
             binding.repo = it

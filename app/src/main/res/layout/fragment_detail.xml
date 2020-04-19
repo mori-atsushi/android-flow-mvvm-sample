@@ -10,6 +10,10 @@
             type="com.example.flow_mvvm_sample.model.Repo" />
 
         <variable
+            name="isFail"
+            type="Boolean" />
+
+        <variable
             name="isLoading"
             type="Boolean" />
     </data>
@@ -34,6 +38,11 @@
                     android:text="@{repo.name}"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="name" />
+
+                <include
+                    android:id="@+id/error"
+                    layout="@layout/layout_error"
+                    app:visible="@{isFail}" />
 
                 <ProgressBar
                     android:layout_width="wrap_content"
