@@ -15,13 +15,13 @@ class TopViewModel(
     private val repository: RepoRepository
 ) : ViewModel() {
     private val _userName = ConflatedBroadcastChannel("Google")
-    val userName get() = _userName.asFlow()
+    val userName = _userName.asFlow()
 
     private val _submitEvent = BroadcastChannel<Unit>(Channel.BUFFERED)
-    private val submitEvent get() = _submitEvent.asFlow()
+    private val submitEvent = _submitEvent.asFlow()
 
     private val _resource = ConflatedBroadcastChannel<Resource<List<Repo>>>()
-    private val resource get() = _resource.asFlow()
+    private val resource = _resource.asFlow()
     val isLoading = resource.map {
         it.isLoading
     }

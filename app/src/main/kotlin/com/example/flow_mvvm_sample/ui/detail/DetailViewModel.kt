@@ -17,10 +17,10 @@ class DetailViewModel(
     private val repository: RepoRepository
 ) : ViewModel() {
     private val _loadEvent = BroadcastChannel<Unit>(Channel.BUFFERED)
-    private val loadEvent get() = _loadEvent.asFlow()
+    private val loadEvent = _loadEvent.asFlow()
 
     private val repoChannel = ConflatedBroadcastChannel<Resource<Repo>>()
-    private val repo get() = repoChannel.asFlow()
+    private val repo = repoChannel.asFlow()
 
     val isLoading = repo.map { it.isLoading }
     val isFail = repo.map { it.isFail }
