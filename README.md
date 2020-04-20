@@ -16,6 +16,8 @@ top|detail
 ### ViewModel -> View
 Use kotlin coroutines flow with [ConflatedBroadcastChannel](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-conflated-broadcast-channel/).
 
+After transformed to hot stream with [ViewModelScope](https://developer.android.com/topic/libraries/architecture/coroutines#viewmodelscope), bind to view with [LifecycleScope](https://developer.android.com/topic/libraries/architecture/coroutines#lifecyclescope).
+
 ```kotlin
 class TopViewModel(
     private val repository: RepoRepository
@@ -110,6 +112,7 @@ class TopActivity : AppCompatActivity() {
 
 ### View <-> ViewModel (2-way data binding)
 Combine the above two.
+
 ```kotlin
 class TopViewModel(
     private val repository: RepoRepository
