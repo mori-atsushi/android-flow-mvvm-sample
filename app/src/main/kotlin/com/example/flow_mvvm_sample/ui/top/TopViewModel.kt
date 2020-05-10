@@ -5,23 +5,25 @@ import androidx.lifecycle.viewModelScope
 import com.example.flow_mvvm_sample.data.repository.RepoRepository
 import com.example.flow_mvvm_sample.model.Repo
 import com.example.flow_mvvm_sample.model.Resource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class TopViewModel(
     private val repository: RepoRepository
 ) : ViewModel() {
-    private val _userName = ConflatedBroadcastChannel("Google")
-    val userName = _userName.asFlow()
+    private val _userName = MutableStateFlow("Google")
+    val userName: Flow<String> = _userName
 
     private val _submitEvent = BroadcastChannel<Unit>(Channel.BUFFERED)
     private val submitEvent = _submitEvent.asFlow()
 
-    private val _resource = ConflatedBroadcastChannel<Resource<List<Repo>>>()
-    private val resource = _resource.asFlow()
+    private val resource = MutableStateFlow<Resource<List<Repo>>>(Resource.Loading)
     val isLoading = resource.map {
         it.isLoading
     }
@@ -36,7 +38,7 @@ class TopViewModel(
         submitEvent
             .map { _userName.value }
             .flatMapLatest { repository.getRepoList(it) }
-            .onEach { _resource.send(it) }
+            .onEach { resource.value = it }
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
@@ -45,9 +47,7 @@ class TopViewModel(
     }
 
     fun setUserName(userName: String) {
-        viewModelScope.launch {
-            _userName.send(userName)
-        }
+        _userName.value = userName
     }
 
     fun submit() {
