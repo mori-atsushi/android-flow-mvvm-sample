@@ -14,7 +14,7 @@ top|detail
 <img src="images/architecture.png" width="250px" />
 
 ### ViewModel -> View
-Use kotlin coroutines flow with [ConflatedBroadcastChannel](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-conflated-broadcast-channel/).
+Use kotlin coroutines flow with [StateFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/).
 
 After transformed to hot stream with [ViewModelScope](https://developer.android.com/topic/libraries/architecture/coroutines#viewmodelscope), bind to view with [LifecycleScope](https://developer.android.com/topic/libraries/architecture/coroutines#lifecyclescope).
 
@@ -22,13 +22,12 @@ After transformed to hot stream with [ViewModelScope](https://developer.android.
 class TopViewModel(
     private val repository: RepoRepository
 ): ViewModel() {
-    private val _resource = ConflatedBroadcastChannel<Resource<List<Repo>>>()
-    private val resource = _resource.asFlow()
+    private val resource = MutableStateFlow<Resource<List<Repo>>>(Resource.Loading)
     val data = resource.map { it.valueOrNull.orEmpty() }
 
     init {
         repository.getRepoList("Google")
-            .onEach { _resource.send(it) }
+            .onEach { _resource.value = it }
             .launchIn(viewModelScope)
     }
 }
@@ -117,13 +116,11 @@ Combine the above two.
 class TopViewModel(
     private val repository: RepoRepository
 ) : ViewModel() {
-    private val _userName = ConflatedBroadcastChannel("Google")
-    val userName = _userName.asFlow()
+    private val _userName = MutableStateFlow("Google")
+    val userName: Flow<String> = _userName
 
     fun setUserName(userName: String) {
-        viewModelScope.launch {
-            _userName.send(userName)
-        }
+        _userName.value = userName
     }
 }
 ```
