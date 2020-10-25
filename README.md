@@ -62,14 +62,13 @@ class TopActivity : AppCompatActivity() {
 ```
 
 ### View -> ViewModel
-Call a ViewModel function, and send to [BroadcastChannel](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-broadcast-channel/).
+Call a ViewModel function, and emit to [MutableSharedFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-mutable-shared-flow/).
 
 ```kotlin
 class TopViewModel(
     private val repository: RepoRepository
 ) : ViewModel() {
-    private val _submitEvent = BroadcastChannel<Unit>(Channel.BUFFERED)
-    private val submitEvent = _submitEvent.asFlow()
+    private val submitEvent = MutableSharedFlow<Unit>()
 
     init {
         submitEvent
@@ -80,7 +79,7 @@ class TopViewModel(
 
     fun submit() {
         viewModelScope.launch {
-            _submitEvent.send(Unit)
+            submitEvent.emit(Unit)
         }
     }
 }
