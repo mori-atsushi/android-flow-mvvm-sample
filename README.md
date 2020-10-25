@@ -24,7 +24,6 @@ class TopViewModel(
 ): ViewModel() {
     private val resource = repository
         .getRepoList("Google")
-        .onEach { _resource.value = it }
         .stateIn(viewModelScope, SharingStarted.Eagerly, Resource.Loading)
     val data = resource.map { it.valueOrNull.orEmpty() }
 }
