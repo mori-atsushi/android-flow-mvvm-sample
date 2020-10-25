@@ -7,8 +7,6 @@ import com.example.flow_mvvm_sample.model.Repo
 import com.example.flow_mvvm_sample.model.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -19,8 +17,7 @@ class DetailViewModel(
     private val repoName: String,
     private val repository: RepoRepository
 ) : ViewModel() {
-    private val _loadEvent = BroadcastChannel<Unit>(Channel.BUFFERED)
-    private val loadEvent = _loadEvent.asFlow()
+    private val loadEvent = MutableSharedFlow<Unit>()
 
     private val repo = MutableStateFlow<Resource<Repo>>(Resource.Loading)
     val isLoading = repo.map { it.isLoading }
@@ -33,13 +30,13 @@ class DetailViewModel(
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
-            _loadEvent.send(Unit)
+            loadEvent.emit(Unit)
         }
     }
 
     fun retry() {
         viewModelScope.launch {
-            _loadEvent.send(Unit)
+            loadEvent.emit(Unit)
         }
     }
 }

@@ -7,8 +7,6 @@ import com.example.flow_mvvm_sample.model.Repo
 import com.example.flow_mvvm_sample.model.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -20,8 +18,7 @@ class TopViewModel(
     private val _userName = MutableStateFlow("Google")
     val userName: Flow<String> = _userName
 
-    private val _submitEvent = BroadcastChannel<Unit>(Channel.BUFFERED)
-    private val submitEvent = _submitEvent.asFlow()
+    private val submitEvent = MutableSharedFlow<Unit>()
 
     private val resource = MutableStateFlow<Resource<List<Repo>>>(Resource.Loading)
     val isLoading = resource.map {
@@ -42,7 +39,7 @@ class TopViewModel(
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
-            _submitEvent.send(Unit)
+            submitEvent.emit(Unit)
         }
     }
 
@@ -52,13 +49,13 @@ class TopViewModel(
 
     fun submit() {
         viewModelScope.launch {
-            _submitEvent.send(Unit)
+            submitEvent.emit(Unit)
         }
     }
 
     fun retry() {
         viewModelScope.launch {
-            _submitEvent.send(Unit)
+            submitEvent.emit(Unit)
         }
     }
 }
