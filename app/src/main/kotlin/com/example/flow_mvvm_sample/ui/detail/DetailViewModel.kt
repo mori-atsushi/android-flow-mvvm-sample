@@ -3,7 +3,6 @@ package com.example.flow_mvvm_sample.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flow_mvvm_sample.data.repository.RepoRepository
-import com.example.flow_mvvm_sample.model.Repo
 import com.example.flow_mvvm_sample.model.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -19,16 +18,15 @@ class DetailViewModel(
 ) : ViewModel() {
     private val loadEvent = MutableSharedFlow<Unit>()
 
-    private val repo = MutableStateFlow<Resource<Repo>>(Resource.Loading)
+    private val repo = loadEvent
+        .flatMapLatest { repository.getRepoDetail(userName, repoName) }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, Resource.Loading)
+
     val isLoading = repo.map { it.isLoading }
     val isFail = repo.map { it.isFail }
     val data = repo.map { it.valueOrNull }
 
     init {
-        loadEvent.flatMapLatest { repository.getRepoDetail(userName, repoName) }
-            .onEach { repo.value = it }
-            .launchIn(viewModelScope)
-
         viewModelScope.launch {
             loadEvent.emit(Unit)
         }

@@ -3,7 +3,6 @@ package com.example.flow_mvvm_sample.ui.top
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flow_mvvm_sample.data.repository.RepoRepository
-import com.example.flow_mvvm_sample.model.Repo
 import com.example.flow_mvvm_sample.model.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -20,7 +19,11 @@ class TopViewModel(
 
     private val submitEvent = MutableSharedFlow<Unit>()
 
-    private val resource = MutableStateFlow<Resource<List<Repo>>>(Resource.Loading)
+    private val resource = submitEvent
+        .map { _userName.value }
+        .flatMapLatest { repository.getRepoList(it) }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, Resource.Loading)
+
     val isLoading = resource.map {
         it.isLoading
     }
@@ -32,12 +35,6 @@ class TopViewModel(
     }
 
     init {
-        submitEvent
-            .map { _userName.value }
-            .flatMapLatest { repository.getRepoList(it) }
-            .onEach { resource.value = it }
-            .launchIn(viewModelScope)
-
         viewModelScope.launch {
             submitEvent.emit(Unit)
         }
