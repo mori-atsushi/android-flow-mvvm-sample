@@ -5,11 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.flow_mvvm_sample.data.repository.RepoRepository
 import com.example.flow_mvvm_sample.model.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-@FlowPreview
 @ExperimentalCoroutinesApi
 class TopViewModel(
     private val repository: RepoRepository

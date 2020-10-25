@@ -2,8 +2,6 @@ package com.example.flow_mvvm_sample.ui.detail
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -16,9 +14,11 @@ import com.example.flow_mvvm_sample.databinding.FragmentDetailBinding
 import com.example.flow_mvvm_sample.util.ext.bind
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+@ExperimentalCoroutinesApi
 class DetailFragment : BottomSheetDialogFragment() {
     companion object {
         private const val USER_NAME_KEY = "user_name"

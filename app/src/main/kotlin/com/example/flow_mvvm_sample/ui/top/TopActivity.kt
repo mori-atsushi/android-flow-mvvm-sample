@@ -10,8 +10,10 @@ import com.example.flow_mvvm_sample.model.Repo
 import com.example.flow_mvvm_sample.ui.detail.DetailFragment
 import com.example.flow_mvvm_sample.util.ext.bind
 import com.example.flow_mvvm_sample.util.ext.requestQuery
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class TopActivity : AppCompatActivity() {
     private val viewModel: TopViewModel by viewModel()
 
