@@ -22,14 +22,11 @@ After transformed to hot stream with [ViewModelScope](https://developer.android.
 class TopViewModel(
     private val repository: RepoRepository
 ): ViewModel() {
-    private val resource = MutableStateFlow<Resource<List<Repo>>>(Resource.Loading)
+    private val resource = repository
+        .getRepoList("Google")
+        .onEach { _resource.value = it }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, Resource.Loading)
     val data = resource.map { it.valueOrNull.orEmpty() }
-
-    init {
-        repository.getRepoList("Google")
-            .onEach { _resource.value = it }
-            .launchIn(viewModelScope)
-    }
 }
 ```
 ```kotlin
@@ -69,13 +66,9 @@ class TopViewModel(
     private val repository: RepoRepository
 ) : ViewModel() {
     private val submitEvent = MutableSharedFlow<Unit>()
-
-    init {
-        submitEvent
-            .flatMapLatest { repository.getRepoList("Google") }
-            .onEach { ... }
-            .launchIn(viewModelScope)
-    }
+    private val resource = submitEvent
+        .flatMapLatest { repository.getRepoList("Google") }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, Resource.Loading)
 
     fun submit() {
         viewModelScope.launch {
